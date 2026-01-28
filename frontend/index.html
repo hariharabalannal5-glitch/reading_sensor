@@ -262,7 +262,7 @@
             font-size: 0.875rem;
         }
 
-        /* Sensor Selection */
+        /* Sensor Selection - NEW GROUPED DESIGN */
         .sensor-section {
             background: rgba(30, 41, 59, 0.5);
             backdrop-filter: blur(10px);
@@ -279,34 +279,37 @@
             margin-bottom: 1rem;
         }
 
-        .sensor-grid {
+        .sensor-group-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-            gap: 0.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
         }
 
-        .sensor-btn {
-            padding: 0.5rem 1rem;
+        .sensor-group-btn {
+            padding: 1rem;
             background: #334155;
             color: #cbd5e1;
-            border: none;
+            border: 2px solid #475569;
             border-radius: 0.5rem;
             cursor: pointer;
-            font-weight: 500;
+            font-weight: 600;
+            font-size: 1rem;
             transition: all 0.3s;
         }
 
-        .sensor-btn:hover {
+        .sensor-group-btn:hover {
             background: #475569;
+            border-color: #64748b;
         }
 
-        .sensor-btn.active {
+        .sensor-group-btn.active {
             background: #3b82f6;
             color: white;
+            border-color: #3b82f6;
             box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
         }
 
-        /* Sensor Display */
+        /* Sensor Display - MULTIPLE SENSOR CARDS */
         .sensor-display {
             background: rgba(30, 41, 59, 0.5);
             backdrop-filter: blur(10px);
@@ -331,30 +334,95 @@
             color: #94a3b8;
         }
 
-        .sensor-content {
+        /* Multi-Sensor Grid Layout */
+        .sensors-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 1.5rem;
             margin-bottom: 1.5rem;
         }
 
-        .reading-card {
+        /* Individual Sensor Card with Color-Coded Border */
+        .sensor-card {
+            background: rgba(51, 65, 85, 0.5);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            border: 3px solid;
+            transition: all 0.3s ease;
+        }
+
+        .sensor-card.health-good {
+            border-color: #22c55e;
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.3);
+        }
+
+        .sensor-card.health-warning {
+            border-color: #eab308;
+            box-shadow: 0 0 15px rgba(234, 179, 8, 0.3);
+        }
+
+        .sensor-card.health-danger {
+            border-color: #ef4444;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .sensor-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .sensor-card-name {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .sensor-card-status {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .sensor-card-status.good {
+            background: #22c55e;
+        }
+
+        .sensor-card-status.warning {
+            background: #eab308;
+        }
+
+        .sensor-card-status.danger {
+            background: #ef4444;
+        }
+
+        .sensor-card-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .sensor-card-label {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Settings Display Below Sensor Cards */
+        .settings-section {
             background: rgba(51, 65, 85, 0.5);
             border: 1px solid #475569;
             border-radius: 0.75rem;
             padding: 1.5rem;
+            margin-bottom: 1.5rem;
         }
 
-        .reading-card h3 {
-            font-size: 0.875rem;
-            font-weight: 500;
-            color: #94a3b8;
-            margin-bottom: 0.5rem;
-        }
-
-        .reading-value {
-            font-size: 2.5rem;
-            font-weight: bold;
+        .settings-section h3 {
+            font-size: 1rem;
+            font-weight: 600;
             color: white;
             margin-bottom: 1rem;
         }
@@ -362,9 +430,7 @@
         .settings-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 0.5rem;
-            padding-top: 1rem;
-            border-top: 1px solid #475569;
+            gap: 1rem;
         }
 
         .setting-item {
@@ -374,70 +440,54 @@
         .setting-label {
             font-size: 0.75rem;
             color: #64748b;
+            margin-bottom: 0.25rem;
         }
 
         .setting-value {
             color: #cbd5e1;
-            font-weight: 500;
-            font-size: 0.875rem;
-        }
-
-        /* Health Status Card */
-        .health-card {
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            border: 2px solid;
-        }
-
-        .health-good {
-            background: rgba(22, 101, 52, 0.2);
-            border-color: #22c55e;
-        }
-
-        .health-warning {
-            background: rgba(133, 77, 14, 0.2);
-            border-color: #eab308;
-        }
-
-        .health-danger {
-            background: rgba(127, 29, 29, 0.2);
-            border-color: #ef4444;
-        }
-
-        .health-header {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .health-icon {
-            width: 32px;
-            height: 32px;
-        }
-
-        .health-title {
-            font-size: 1.25rem;
             font-weight: 600;
-            color: white;
+            font-size: 1rem;
+        }
+
+        /* End of Life Message */
+        .end-of-life-message {
+            background: rgba(127, 29, 29, 0.4);
+            border: 3px solid #dc2626;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 1.5rem;
+            animation: pulse-end 2s infinite;
+        }
+
+        @keyframes pulse-end {
+            0%, 100% { 
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% { 
+                opacity: 0.85;
+                transform: scale(1.02);
+            }
+        }
+
+        .end-of-life-message .icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .end-of-life-message h3 {
+            color: #fca5a5;
+            font-size: 1.75rem;
+            font-weight: bold;
             text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
         }
 
-        .health-message {
-            font-size: 0.875rem;
-            line-height: 1.5;
-        }
-
-        .health-good .health-message {
-            color: #bbf7d0;
-        }
-
-        .health-warning .health-message {
-            color: #fef08a;
-        }
-
-        .health-danger .health-message {
+        .end-of-life-message p {
             color: #fecaca;
+            font-size: 1rem;
         }
 
         /* Legend */
@@ -509,12 +559,24 @@
                 font-size: 1.5rem;
             }
 
-            .sensor-grid {
-                grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+            .sensor-group-grid {
+                grid-template-columns: 1fr 1fr;
             }
 
             .controls-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .sensors-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+
+            .end-of-life-message h3 {
+                font-size: 1.25rem;
+            }
+
+            .end-of-life-message .icon {
+                font-size: 2rem;
             }
         }
     </style>
@@ -586,54 +648,52 @@
             </div>
         </div>
 
-        <!-- Sensor Selection -->
+        <!-- Sensor Selection - NEW GROUPED DESIGN -->
         <div class="sensor-section">
-            <h3>Select Sensor for Monitoring</h3>
-            <div class="sensor-grid" id="sensorGrid">
-                <!-- Sensors will be generated by JavaScript -->
+            <h3>Select Sensor Group for Monitoring</h3>
+            <div class="sensor-group-grid">
+                <button class="sensor-group-btn active" onclick="selectSensorGroup(1, 6)">S1 - S6</button>
+                <button class="sensor-group-btn" onclick="selectSensorGroup(7, 12)">S7 - S12</button>
+                <button class="sensor-group-btn" onclick="selectSensorGroup(13, 18)">S13 - S18</button>
+                <button class="sensor-group-btn" onclick="selectSensorGroup(19, 21)">S19 - S21</button>
             </div>
         </div>
 
-        <!-- Sensor Display -->
+        <!-- Sensor Display - MULTIPLE SENSOR CARDS -->
         <div class="sensor-display">
             <div class="sensor-display-header">
-                <h2>Sensor <span id="sensorName">S1</span> Monitoring</h2>
+                <h2>Sensor Group <span id="sensorGroupName">S1 - S6</span> Monitoring</h2>
                 <p id="engineInfo">Engine 1 - Cycle 1 of 192</p>
             </div>
 
-            <div class="sensor-content">
-                <!-- Reading Card -->
-                <div class="reading-card">
-                    <h3>Current Reading</h3>
-                    <div class="reading-value">
-                        <span id="sensorValue">518.6700</span>
-                        <span id="loadingSpinner" class="spinner hidden"></span>
+            <!-- Multi-Sensor Cards Grid -->
+            <div id="sensorsGrid" class="sensors-grid">
+                <!-- Sensor cards will be dynamically generated here -->
+            </div>
+
+            <!-- Settings Section -->
+            <div class="settings-section">
+                <h3>Operational Settings</h3>
+                <div class="settings-grid">
+                    <div class="setting-item">
+                        <div class="setting-label">Setting 1</div>
+                        <div class="setting-value" id="setting1">0.0023</div>
                     </div>
-                    <div class="settings-grid">
-                        <div class="setting-item">
-                            <div class="setting-label">Setting 1</div>
-                            <div class="setting-value" id="setting1">0.0023</div>
-                        </div>
-                        <div class="setting-item">
-                            <div class="setting-label">Setting 2</div>
-                            <div class="setting-value" id="setting2">0.0003</div>
-                        </div>
-                        <div class="setting-item">
-                            <div class="setting-label">Setting 3</div>
-                            <div class="setting-value" id="setting3">100.0</div>
-                        </div>
+                    <div class="setting-item">
+                        <div class="setting-label">Setting 2</div>
+                        <div class="setting-value" id="setting2">0.0003</div>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-label">Setting 3</div>
+                        <div class="setting-value" id="setting3">100.0</div>
                     </div>
                 </div>
 
-                <!-- Health Status Card -->
-                <div id="healthCard" class="health-card health-good">
-                    <div class="health-header">
-                        <svg id="healthIcon" class="health-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        <h3 class="health-title" id="healthStatus">GOOD</h3>
-                    </div>
-                    <p class="health-message" id="healthMessage">Operating normally - All systems nominal</p>
+                <!-- End of Life Message -->
+                <div id="endOfLifeMessage" class="end-of-life-message hidden">
+                    <div class="icon">⚠️</div>
+                    <h3>End of Engine Useful Life</h3>
+                    <p>This engine has reached the end of its operational lifecycle</p>
                 </div>
             </div>
 
@@ -656,7 +716,7 @@
 
         <!-- Footer -->
         <div class="footer">
-            <p>Phase 1 Prototype - Single Sensor Monitoring | Data Source: NASA C-MAPSS Dataset</p>
+            <p>Phase 1 Prototype - Multi-Sensor Group Monitoring | Data Source: NASA C-MAPSS Dataset</p>
             <p>Backend: FastAPI | Frontend: HTML + CSS + JavaScript</p>
         </div>
     </div>
@@ -669,7 +729,8 @@
         let engineId = 1;
         let currentCycle = 1;
         let maxCycle = 192;
-        let selectedSensor = 's1';
+        let selectedGroupStart = 1;
+        let selectedGroupEnd = 6;
         let isPlaying = false;
         let playInterval = null;
         let apiConnected = false;
@@ -685,46 +746,38 @@
             progressText: document.getElementById('progressText'),
             criticalWarning: document.getElementById('criticalWarning'),
             criticalMessage: document.getElementById('criticalMessage'),
-            sensorGrid: document.getElementById('sensorGrid'),
-            sensorName: document.getElementById('sensorName'),
+            sensorGroupName: document.getElementById('sensorGroupName'),
             engineInfo: document.getElementById('engineInfo'),
-            sensorValue: document.getElementById('sensorValue'),
-            loadingSpinner: document.getElementById('loadingSpinner'),
+            sensorsGrid: document.getElementById('sensorsGrid'),
             setting1: document.getElementById('setting1'),
             setting2: document.getElementById('setting2'),
             setting3: document.getElementById('setting3'),
-            healthCard: document.getElementById('healthCard'),
-            healthIcon: document.getElementById('healthIcon'),
-            healthStatus: document.getElementById('healthStatus'),
-            healthMessage: document.getElementById('healthMessage'),
-            apiStatus: document.getElementById('apiStatus')
+            apiStatus: document.getElementById('apiStatus'),
+            endOfLifeMessage: document.getElementById('endOfLifeMessage')
         };
 
         // Initialize
         function init() {
-            createSensorButtons();
             checkApiConnection();
             attachEventListeners();
             fetchSensorData();
         }
 
-        // Create sensor buttons
-        function createSensorButtons() {
-            const sensors = Array.from({length: 21}, (_, i) => `s${i + 1}`);
-            elements.sensorGrid.innerHTML = sensors.map(sensor => `
-                <button class="sensor-btn ${sensor === selectedSensor ? 'active' : ''}" 
-                        data-sensor="${sensor}" 
-                        onclick="selectSensor('${sensor}')">
-                    ${sensor.toUpperCase()}
-                </button>
-            `).join('');
-        }
-
-        // Select sensor
-        function selectSensor(sensor) {
-            selectedSensor = sensor;
-            createSensorButtons();
-            elements.sensorName.textContent = sensor.toUpperCase();
+        // Select sensor group
+        function selectSensorGroup(start, end) {
+            selectedGroupStart = start;
+            selectedGroupEnd = end;
+            
+            // Update button states
+            document.querySelectorAll('.sensor-group-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update header
+            elements.sensorGroupName.textContent = `S${start} - S${end}`;
+            
+            // Update display
             updateDisplay();
         }
 
@@ -746,8 +799,6 @@
 
         // Fetch sensor data
         async function fetchSensorData() {
-            showLoading(true);
-            
             try {
                 if (apiConnected) {
                     const response = await fetch(
@@ -770,8 +821,6 @@
                 console.error('Error fetching data:', error);
                 sensorData = generateSimulatedData();
                 updateDisplay();
-            } finally {
-                showLoading(false);
             }
         }
 
@@ -792,6 +841,13 @@
                 sensors: sensors,
                 rul: maxCycle - currentCycle
             };
+        }
+
+        // Get health class based on degradation percentage
+        function getHealthClass(degradationPercent) {
+            if (degradationPercent < 60) return 'good';
+            if (degradationPercent < 85) return 'warning';
+            return 'danger';
         }
 
         // Update display
@@ -822,9 +878,6 @@
                 elements.criticalWarning.classList.add('hidden');
             }
             
-            // Update sensor value
-            elements.sensorValue.textContent = sensorData.sensors[selectedSensor].toFixed(4);
-            
             // Update settings
             elements.setting1.textContent = sensorData.setting1;
             elements.setting2.textContent = sensorData.setting2;
@@ -833,40 +886,46 @@
             // Update engine info
             elements.engineInfo.textContent = `Engine ${engineId} - Cycle ${currentCycle} of ${maxCycle}`;
             
-            // Update health status
-            updateHealthStatus(degradationPercent);
+            // Update sensor cards
+            updateSensorCards(degradationPercent);
         }
 
-        // Update health status
-        function updateHealthStatus(degradationPercent) {
-            let status, message, cardClass, iconSvg;
+        // Update sensor cards with color-coded borders
+        function updateSensorCards(degradationPercent) {
+            const rul = sensorData.rul;
+            const isEndOfLife = (rul === 0 || degradationPercent >= 100);
             
-            if (degradationPercent < 60) {
-                status = 'GOOD';
-                message = 'Operating normally - All systems nominal';
-                cardClass = 'health-good';
-                iconSvg = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>';
-            } else if (degradationPercent < 85) {
-                status = 'WARNING';
-                message = 'Monitor closely - Degradation detected';
-                cardClass = 'health-warning';
-                iconSvg = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>';
+            // Show/hide end of life message
+            if (isEndOfLife) {
+                elements.endOfLifeMessage.classList.remove('hidden');
+                elements.sensorsGrid.style.display = 'none';
+                return;
             } else {
-                status = 'DANGER';
-                message = 'Critical - Immediate maintenance required';
-                cardClass = 'health-danger';
-                iconSvg = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>';
+                elements.endOfLifeMessage.classList.add('hidden');
+                elements.sensorsGrid.style.display = 'grid';
             }
             
-            elements.healthCard.className = 'health-card ' + cardClass;
-            elements.healthStatus.textContent = status;
-            elements.healthMessage.textContent = message;
-            elements.healthIcon.innerHTML = iconSvg;
-        }
-
-        // Show/hide loading
-        function showLoading(show) {
-            elements.loadingSpinner.classList.toggle('hidden', !show);
+            const healthClass = getHealthClass(degradationPercent);
+            let cardsHTML = '';
+            
+            // Generate cards for selected sensor group
+            for (let i = selectedGroupStart; i <= selectedGroupEnd; i++) {
+                const sensorName = `s${i}`;
+                const sensorValue = sensorData.sensors[sensorName];
+                
+                cardsHTML += `
+                    <div class="sensor-card health-${healthClass}">
+                        <div class="sensor-card-header">
+                            <div class="sensor-card-name">S${i}</div>
+                            <div class="sensor-card-status ${healthClass}"></div>
+                        </div>
+                        <div class="sensor-card-value">${sensorValue.toFixed(4)}</div>
+                        <div class="sensor-card-label">Sensor Reading</div>
+                    </div>
+                `;
+            }
+            
+            elements.sensorsGrid.innerHTML = cardsHTML;
         }
 
         // Play/Pause functionality
@@ -874,6 +933,13 @@
             isPlaying = !isPlaying;
             
             if (isPlaying) {
+                // If at end of life, reset to cycle 1
+                const rul = sensorData ? sensorData.rul : maxCycle - currentCycle;
+                if (rul === 0 || currentCycle >= maxCycle) {
+                    currentCycle = 1;
+                    elements.currentCycle.value = 1;
+                }
+                
                 elements.playBtn.textContent = 'Pause';
                 elements.playBtn.className = 'btn btn-danger';
                 startAutoPlay();
@@ -909,6 +975,11 @@
                 engineId = parseInt(e.target.value);
                 currentCycle = 1;
                 elements.currentCycle.value = 1;
+                
+                // Reset end of life display
+                elements.endOfLifeMessage.classList.add('hidden');
+                elements.sensorsGrid.style.display = 'grid';
+                
                 fetchSensorData();
             });
 
