@@ -167,6 +167,20 @@
             background: #b91c1c;
         }
 
+        .btn-warning {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background: #d97706;
+        }
+
+        .btn-success {
+            background: #22c55e;
+            color: white;
+        }
+
         .rul-display {
             font-size: 2rem;
             font-weight: bold;
@@ -490,6 +504,34 @@
             font-size: 1rem;
         }
 
+        /* Cache Notification */
+        .cache-notification {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: rgba(22, 101, 52, 0.95);
+            border: 2px solid #22c55e;
+            border-radius: 0.5rem;
+            padding: 1rem 1.5rem;
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+        }
+
+        .cache-notification.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .cache-notification .icon {
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+
         /* Legend */
         .legend {
             display: flex;
@@ -583,6 +625,12 @@
 </head>
 <body>
     <div class="container">
+        <!-- Cache Notification -->
+        <div id="cacheNotification" class="cache-notification">
+            <span class="icon">✓</span>
+            <span id="cacheNotificationText">Cache cleared successfully</span>
+        </div>
+
         <!-- Header -->
         <div class="header">
             <div class="header-content">
@@ -627,6 +675,13 @@
                 <div class="rul-display">
                     <span id="rulValue">191</span> <span>cycles</span>
                 </div>
+            </div>
+
+            <div class="control-card">
+                <label class="control-label">Engine Cache Control</label>
+                <button id="clearCacheBtn" class="btn btn-warning" style="width: 100%;">
+                    🗑️ Clear Engine Cache
+                </button>
             </div>
         </div>
 
@@ -735,12 +790,16 @@
         let playInterval = null;
         let apiConnected = false;
         let sensorData = null;
+        
+        // Engine-specific cache storage
+        let engineCache = {};
 
         // DOM Elements
         const elements = {
             engineId: document.getElementById('engineId'),
             currentCycle: document.getElementById('currentCycle'),
             playBtn: document.getElementById('playBtn'),
+            clearCacheBtn: document.getElementById('clearCacheBtn'),
             rulValue: document.getElementById('rulValue'),
             progressBar: document.getElementById('progressBar'),
             progressText: document.getElementById('progressText'),
@@ -753,7 +812,9 @@
             setting2: document.getElementById('setting2'),
             setting3: document.getElementById('setting3'),
             apiStatus: document.getElementById('apiStatus'),
-            endOfLifeMessage: document.getElementById('endOfLifeMessage')
+            endOfLifeMessage: document.getElementById('endOfLifeMessage'),
+            cacheNotification: document.getElementById('cacheNotification'),
+            cacheNotificationText: document.getElementById('cacheNotificationText')
         };
 
         // Initialize
@@ -800,6 +861,15 @@
         // Fetch sensor data
         async function fetchSensorData() {
             try {
+                // Check if data is in cache for current engine and cycle
+                const cacheKey = `${engineId}_${currentCycle}`;
+                if (engineCache[cacheKey]) {
+                    console.log(`📦 Using cached data for Engine ${engineId}, Cycle ${currentCycle}`);
+                    sensorData = engineCache[cacheKey];
+                    updateDisplay();
+                    return;
+                }
+                
                 if (apiConnected) {
                     const response = await fetch(
                         `${API_BASE_URL}/api/engine/${engineId}/cycle/${currentCycle}`
@@ -808,18 +878,30 @@
                     if (response.ok) {
                         sensorData = await response.json();
                         maxCycle = sensorData.max_cycle;
+                        
+                        // Store in cache
+                        engineCache[cacheKey] = sensorData;
+                        console.log(`💾 Cached data for Engine ${engineId}, Cycle ${currentCycle}`);
                     } else {
                         throw new Error('API error');
                     }
                 } else {
                     // Simulated data
                     sensorData = generateSimulatedData();
+                    
+                    // Store simulated data in cache too
+                    engineCache[cacheKey] = sensorData;
                 }
                 
                 updateDisplay();
             } catch (error) {
                 console.error('Error fetching data:', error);
                 sensorData = generateSimulatedData();
+                
+                // Store simulated data in cache
+                const cacheKey = `${engineId}_${currentCycle}`;
+                engineCache[cacheKey] = sensorData;
+                
                 updateDisplay();
             }
         }
@@ -848,6 +930,58 @@
             if (degradationPercent < 60) return 'good';
             if (degradationPercent < 85) return 'warning';
             return 'danger';
+        }
+
+        // Clear engine cache
+        function clearEngineCache() {
+            const currentEngineId = engineId;
+            let clearedCount = 0;
+            
+            // Find and delete all cache entries for current engine
+            Object.keys(engineCache).forEach(key => {
+                if (key.startsWith(`${currentEngineId}_`)) {
+                    delete engineCache[key];
+                    clearedCount++;
+                }
+            });
+            
+            // Reset UI to initial state
+            currentCycle = 1;
+            elements.currentCycle.value = 1;
+            sensorData = null;
+            
+            // Reset displays
+            elements.rulValue.textContent = '---';
+            elements.progressBar.style.width = '0%';
+            elements.progressText.textContent = 'Cache cleared - Ready to reload';
+            elements.sensorsGrid.innerHTML = '<p style="text-align: center; color: #94a3b8; grid-column: 1/-1;">Engine cache cleared. Select cycle or click Play to load fresh data.</p>';
+            elements.endOfLifeMessage.classList.add('hidden');
+            elements.criticalWarning.classList.add('hidden');
+            
+            // Visual feedback on button
+            elements.clearCacheBtn.textContent = '✓ Cache Cleared';
+            elements.clearCacheBtn.className = 'btn btn-success';
+            
+            setTimeout(() => {
+                elements.clearCacheBtn.textContent = '🗑️ Clear Engine Cache';
+                elements.clearCacheBtn.className = 'btn btn-warning';
+            }, 2000);
+            
+            // Show notification
+            showNotification(`Cache cleared for Engine ${currentEngineId} (${clearedCount} cycle${clearedCount !== 1 ? 's' : ''} removed)`);
+            
+            console.log(`🗑️ Cleared ${clearedCount} cached cycle(s) for Engine ${currentEngineId}`);
+            console.log(`📊 Remaining cache entries: ${Object.keys(engineCache).length}`);
+        }
+
+        // Show notification
+        function showNotification(message) {
+            elements.cacheNotificationText.textContent = message;
+            elements.cacheNotification.classList.add('show');
+            
+            setTimeout(() => {
+                elements.cacheNotification.classList.remove('show');
+            }, 3000);
         }
 
         // Update display
@@ -989,6 +1123,8 @@
             });
 
             elements.playBtn.addEventListener('click', togglePlay);
+            
+            elements.clearCacheBtn.addEventListener('click', clearEngineCache);
         }
 
         // Initialize app
